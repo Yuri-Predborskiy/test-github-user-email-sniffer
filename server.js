@@ -16,6 +16,8 @@ app.set('superSecret', config.JWTSecret); // secret variable
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(express.static('public'));
+
 // use morgan to log requests to the console
 app.use(morgan('dev'));
 
