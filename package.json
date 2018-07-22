@@ -1,0 +1,27 @@
+{
+  "name": "test-github-user-email-sniffer",
+  "version": "0.0.1",
+  "description": "rest api based on express that looks up user email and location and emails them a message from the caller",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yuri-Predborskiy/test-github-user-email-sniffer.git"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "Yuri Predborski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yuri-Predborskiy/test-github-user-email-sniffer/issues"
+  },
+  "homepage": "https://github.com/Yuri-Predborskiy/test-github-user-email-sniffer#readme"
+}
