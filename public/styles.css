@@ -1,100 +1,153 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+html {
+    overflow-y: scroll;
+}
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    background: #c1bdba;
+    font-family: 'Titillium Web', sans-serif;
 }
-
-* {box-sizing: border-box}
-
-input[type=text], input[type=password] {
-    width: 100%;
+a {
+    text-decoration: none;
+    color: #1ab188;
+    transition: 0.5s ease;
+}
+a:hover {
+    color: #179b77;
+}
+.form {
+    background: rgba(19, 35, 47, .9);
+    padding: 40px;
+    max-width: 600px;
+    margin: 40px auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, .3);
+}
+.tab-group {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+}
+.tab-group:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.tab-group li a {
+    display: block;
+    text-decoration: none;
     padding: 15px;
-    margin: 5px 0 22px 0;
-    display: inline-block;
-    border: none;
-    background: #f1f1f1;
-}
-
-input[type=text]:focus, input[type=password]:focus {
-    background-color: #ddd;
-    outline: none;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    opacity: 0.9;
-}
-
-button:hover {
-    opacity:1;
-}
-
-.cancelbtn {
-    padding: 14px 20px;
-    background-color: #f44336;
-}
-
-.cancelbtn, .signupbtn {
+    background: rgba(160, 179, 176, .25);
+    color: #a0b3b0;
+    font-size: 20px;
     float: left;
     width: 50%;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s ease;
 }
-
-.container {
-    padding: 16px;
+.tab-group li a:hover {
+    background: #179b77;
+    color: #fff;
 }
-
-.modal {
+.tab-group .active a {
+    background: #1ab188;
+    color: #fff;
+}
+.tab-content > div:last-child {
     display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
+}
+h1 {
+    text-align: center;
+    color: #fff;
+    font-weight: 300;
+    margin: 0 0 40px;
+}
+label {
+    position: absolute;
+    transform: translateY(6px);
+    left: 13px;
+    color: rgba(255, 255, 255, .5);
+    transition: all 0.25s ease;
+    -webkit-backface-visibility: hidden;
+    pointer-events: none;
+    font-size: 22px;
+}
+label .req {
+    margin: 2px;
+    color: #1ab188;
+}
+label.active {
+    transform: translateY(50px);
+    left: 2px;
+    font-size: 14px;
+}
+label.active .req {
+    opacity: 0;
+}
+label.highlight {
+    color: #fff;
+}
+input, textarea {
+    font-size: 22px;
+    display: block;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: #474e5d;
-    padding-top: 50px;
+    padding: 5px 10px;
+    background: none;
+    border: 1px solid #a0b3b0;
+    color: #fff;
+    border-radius: 0;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+input:focus, textarea:focus {
+    outline: 0;
+    border-color: #1ab188;
 }
-
-hr {
-    border: 1px solid #f1f1f1;
-    margin-bottom: 25px;
+textarea {
+    border: 2px solid #a0b3b0;
+    resize: vertical;
 }
-
-.close {
-    position: absolute;
-    right: 35px;
-    top: 15px;
-    font-size: 40px;
-    font-weight: bold;
-    color: #f1f1f1;
+.field-wrap {
+    position: relative;
+    margin-bottom: 40px;
 }
-
-.close:hover,
-.close:focus {
-    color: #f44336;
-    cursor: pointer;
-}
-
-.clearfix::after {
+.top-row:after {
     content: "";
-    clear: both;
     display: table;
+    clear: both;
 }
-
-@media screen and (max-width: 300px) {
-    .cancelbtn, .signupbtn {
-        width: 100%;
-    }
+.top-row > div {
+    float: left;
+    width: 48%;
+    margin-right: 4%;
+}
+.top-row > div:last-child {
+    margin: 0;
+}
+.button {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 15px 0;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: #1ab188;
+    color: #fff;
+    transition: all 0.5s ease;
+    -webkit-appearance: none;
+}
+.button:hover, .button:focus {
+    background: #179b77;
+}
+.button-block {
+    display: block;
+    width: 100%;
+}
+.forgot {
+    margin-top: -20px;
+    text-align: right;
 }
