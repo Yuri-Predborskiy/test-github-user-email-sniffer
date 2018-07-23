@@ -16,7 +16,6 @@ function authenticate(req, res) {
             } else {
                 const payload = {
                     username: user.username,
-                    // password: user.password,
                 };
                 let token = jwt.sign(payload, config.JWTSecret);
 

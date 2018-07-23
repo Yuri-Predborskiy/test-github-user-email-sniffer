@@ -6,6 +6,7 @@
       <w>mongo</w>
       <w>multer</w>
       <w>nodemailer</w>
+      <w>predborski</w>
     </words>
   </dictionary>
 </component>

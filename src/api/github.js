@@ -1,17 +1,41 @@
-// github access api
 const https = require('https');
+const nodemailer = require('nodemailer');
 const config = require('../../config/config');
+const User = require('./../models/user');
+
+let mail = {};
 
 async function sendMailToGitHubUsers(req, res) {
-    console.log('starting mail sender');
+    let me = await User.findOne({ username: req.decoded.username }, function(err, user) {
+        if (err) { res.json({ success: false, message: 'error getting user mail account data from db' }) }
+        return user;
+    });
+    mail = me.mail;
+    mail.message = req.body.message;
     let users = req.body.github_users.replace(/\s/g, '').split(',');
     let promises = users.map(getUserData);
-    users = await Promise.all(promises);
+    try {
+        users = await Promise.all(promises);
+    } catch (err) {
+        console.error(err);
+        res.json({ success: false, message: 'error getting user data from github' });
+    }
     promises = users.map(getWeather);
-    users = await Promise.all(promises);
-    // promises = users.map(sendMail);
-    // let result = await Promise.all(promises);
-    res.json({ success: true, data: users });
+    try {
+        users = await Promise.all(promises);
+    } catch (err) {
+        console.error(err);
+        res.json({ success: false, message: 'error getting user weather data from open weather map API' });
+    }
+    promises = users.map(sendMail);
+    let result = null;
+    try {
+        result = await Promise.all(promises);
+    } catch (err) {
+        console.error(err);
+        res.json({ success: false, message: 'error sending mail to users' });
+    }
+    res.json({ success: true, data: result });
 }
 
 function getUserData(username) {
@@ -52,7 +76,7 @@ function getWeather(user) {
         return new Promise((resolve) => resolve(user));
     }
     let weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=${config.weatherAPIkey}&units=metric`;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
         https.get(weatherURL, (resp) => {
             let data = '';
             resp.on('data', (chunk) => {
@@ -73,38 +97,43 @@ function getWeather(user) {
 }
 
 function sendMail(user) {
+    if (!user.email) {
+        user.mailReport = 'no email provided, mail not sent';
+        return new Promise(resolve => resolve(user));
+    }
     let transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: mail.host,
+        port: mail.port,
+        secure: mail.secure,
         auth: {
-            user: account.user, // generated ethereal user
-            pass: account.pass // generated ethereal password
+            user: mail.auth.user,
+            pass: mail.auth.pass
         }
     });
 
-    // setup email data with unicode symbols
+    let text = mail.message;
+    if (user.weather) {
+        text += `\n-----\nCurrent weather at ${user.location}:\n${JSON.stringify(user.weather)}`;
+    }
+
     let mailOptions = {
-        from: '"Fred Foo 👻" <foo@example.com>', // sender address
-        to: 'bar@example.com, baz@example.com', // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Hello world?', // plain text body
-        html: '<b>Hello world?</b>' // html body
+        from: `"Yuri Predborski" <${mail.auth.user}>`,
+        to: user.email,
+        subject: 'Hello from shiny new API',
+        text,
+        html: text
     };
 
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message sent: %s', info.messageId);
-        // Preview only available when sending through an Ethereal account
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+    return new Promise((resolve) => {
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                user.report = `error sending mail: ${error}`;
+            } else {
+                user.report = `mail sent, preview URL: ${nodemailer.getTestMessageUrl(info)}`;
+            }
+            resolve(user);
+        });
     });
-
 }
 
 module.exports = {
