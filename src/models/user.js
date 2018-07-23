@@ -7,4 +7,13 @@ module.exports = mongoose.model('User', new Schema({
     username: String,
     password: String,
 //    thumbnail: String
+    mail: {
+        host: String,
+        port: String,
+        secure: Boolean,
+        auth: {
+            user: String,
+            pass: String
+        }
+    }
 }));

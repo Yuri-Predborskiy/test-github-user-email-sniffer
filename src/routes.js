@@ -15,13 +15,13 @@ router.get('/', function(req, res) {
 // router.get('/images/:imageName', imageService.getImage);
 // router.post('/images/upload', imageService.uploadImage);
 //
-// // error catcher
-// router.use((err, req, res, next) => {
-//     if (err.code === 'ENOENT') {
-//         res.status(404).json({message: 'Image Not Found !'});
-//     } else {
-//         res.status(500).json({message: err.message});
-//     }
-// });
+// error catcher
+router.use((err, req, res) => {
+    if (err.code === 'ENOENT') {
+        res.status(404).json({message: 'Image Not Found !'});
+    } else {
+        res.status(500).json({message: err.message});
+    }
+});
 
 module.exports = router;

@@ -94,7 +94,7 @@ $('document').ready(function()
             {
                 if(data.success === true)
                 {
-                    console.log('your token is', data.token);
+                    console.log('user data', data);
                 }
                 else {
                     console.log('sign in error,' + data.message);
