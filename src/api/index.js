@@ -8,6 +8,7 @@ router.get('/', function(req, res) {
     res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 
+router.post('/register', auth.createUser);
 router.post('/authenticate', auth.authenticate);
 
 // to access the following API routes you must be logged in

@@ -10,7 +10,6 @@ const app = express();
 const port = config.port;
 
 mongoose.connect(config.database, { useNewUrlParser: true }); // connect to database
-app.set('superSecret', config.JWTSecret); // secret variable
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));

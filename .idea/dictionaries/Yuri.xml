@@ -5,6 +5,7 @@
       <w>imagename</w>
       <w>mongo</w>
       <w>multer</w>
+      <w>nodemailer</w>
     </words>
   </dictionary>
 </component>
