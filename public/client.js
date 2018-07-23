@@ -125,16 +125,25 @@ $('document').ready(function()
     }
 
     $("#sendmail-form").validate({
+        rules:
+            {
+                github_users: {
+                    required: true,
+                },
+                message: {
+                    required: true,
+                }
+            },
         submitHandler: sendMail
     });
 
     function sendMail() {
         let data = $("#sendmail-form").serialize();
-        data.token = token;
         $.ajax({
             type : 'POST',
             url  : 'api/sendmail',
             data : data,
+            beforeSend: function(xhr){xhr.setRequestHeader('x-access-token', token);},
             success: function(data)
             {
                 $('#mail-result').html('<pre>' + JSON.stringify(data, null, " ") + '</pre>');
