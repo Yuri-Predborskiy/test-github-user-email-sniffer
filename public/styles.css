@@ -64,6 +64,9 @@ h1 {
     font-weight: 300;
     margin: 0 0 40px;
 }
+h3 {
+    color: #fff;
+}
 label {
     position: absolute;
     transform: translateY(6px);

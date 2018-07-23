@@ -25,24 +25,24 @@
             <form action="/" id="signup-form" method="post">
 
                 <div class="field-wrap">
-                    <label>
+                    <label for="email">
                         Email Address<span class="req">*</span>
                     </label>
-                    <input type="email" name="email" required autocomplete="off"/>
+                    <input type="email" name="email" title="email" required autocomplete="off"/>
                 </div>
 
                 <div class="field-wrap">
-                    <label>
+                    <label for="password">
                         Set A Password<span class="req">*</span>
                     </label>
-                    <input type="password" name="password" id="password" required autocomplete="off"/>
+                    <input type="password" name="password" id="password" title="password" required autocomplete="off"/>
                 </div>
 
                 <div class="field-wrap">
-                    <label>
+                    <label for="cpassword">
                         Repeat Password<span class="req">*</span>
                     </label>
-                    <input type="password" name="cpassword" required autocomplete="off"/>
+                    <input type="password" name="cpassword" title="cpassword" required autocomplete="off"/>
                 </div>
 
                 <button type="submit" class="button button-block">Sign up</button>
@@ -57,20 +57,18 @@
             <form action="/" id="login-form" method="post">
 
                 <div class="field-wrap">
-                    <label>
+                    <label for="email">
                         Email Address<span class="req">*</span>
                     </label>
-                    <input type="email" name="email" required autocomplete="off"/>
+                    <input type="email" name="email" title="email" required autocomplete="off"/>
                 </div>
 
                 <div class="field-wrap">
-                    <label>
+                    <label for="password">
                         Password<span class="req">*</span>
                     </label>
-                    <input type="password" name="password" required autocomplete="off"/>
+                    <input type="password" name="password" title="password" required autocomplete="off"/>
                 </div>
-
-                <p class="forgot"><a href="#">Forgot Password?</a></p>
 
                 <button type="submit" class="button button-block">Log In</button>
 
@@ -85,6 +83,29 @@
 <div>
     <h2>User data</h2>
     <div id="userdata">User data will be shown here</div>
+</div>
+<div class="form">
+    <h1>Send mail form</h1>
+    <h3>Works only for logged in users</h3>
+    <form action="/" id="sendmail-form" method="post">
+        <div class="field-wrap">
+            <label for="github_users">
+                User names, delimited by comma<span class="req">*</span>
+            </label>
+            <input type="text" name="github_users" title="github_users" required autocomplete="off"/>
+        </div>
+        <div class="field-wrap">
+            <label for="message">
+                Message<span class="req">*</span>
+            </label>
+            <input type="text" name="message" title="message" required autocomplete="off"/>
+        </div>
+        <button type="submit" class="button button-block">Send mail</button>
+    </form>
+</div>
+<div>
+    <h2>Mailing result</h2>
+    <div id="mail-result">Emailing users result will be shown here</div>
 </div>
 <script type="text/javascript" src="client.js"></script>
 </body>

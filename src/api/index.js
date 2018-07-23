@@ -1,6 +1,7 @@
 const express = require('express');
-const auth = require('./auth.js');
+const auth = require('./auth');
 const userApi = require('./userApi');
+const githubApi = require('./github');
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.post('/authenticate', auth.authenticate);
 router.use(auth.verifyToken);
 
 router.get('/user', userApi.getCurrentUser);
+router.post('/sendmail', githubApi.sendMailToGitHubUsers);
 
 module.exports = router;

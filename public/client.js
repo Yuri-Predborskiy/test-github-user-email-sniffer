@@ -1,5 +1,6 @@
 $('document').ready(function()
 {
+    let token = null;
     /* sign up form validation */
     $("#signup-form").validate({
         rules:
@@ -93,7 +94,8 @@ $('document').ready(function()
             {
                 if(data.success === true)
                 {
-                    getUserData(data.token);
+                    token = data.token;
+                    getUserData(token);
                 }
                 else {
                     console.log('sign in error,' + data.message);
@@ -118,6 +120,24 @@ $('document').ready(function()
                 else {
                     console.log('sign in error,' + data.message);
                 }
+            }
+        });
+    }
+
+    $("#sendmail-form").validate({
+        submitHandler: sendMail
+    });
+
+    function sendMail() {
+        let data = $("#sendmail-form").serialize();
+        data.token = token;
+        $.ajax({
+            type : 'POST',
+            url  : 'api/sendmail',
+            data : data,
+            success: function(data)
+            {
+                $('#mail-result').html('<pre>' + JSON.stringify(data, null, " ") + '</pre>');
             }
         });
     }
