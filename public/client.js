@@ -85,7 +85,6 @@ $('document').ready(function()
     function submitLoginForm()
     {
         let data = $("#login-form").serialize();
-        console.log('logging in,', data);
         $.ajax({
             type : 'POST',
             url  : 'api/authenticate',
@@ -94,7 +93,7 @@ $('document').ready(function()
             {
                 if(data.success === true)
                 {
-                    console.log('user data', data);
+                    getUserData(data.token);
                 }
                 else {
                     console.log('sign in error,' + data.message);
@@ -105,6 +104,23 @@ $('document').ready(function()
     }
     /* form submit */
 
+    function getUserData(token) {
+        $.ajax({
+            type : 'GET',
+            url  : 'api/user',
+            beforeSend: function(xhr){xhr.setRequestHeader('x-access-token', token);},
+            success: function(data)
+            {
+                if(data.success === true)
+                {
+                    $('#userdata').html('<pre>' + JSON.stringify(data.user, null, " ") + '</pre>');
+                }
+                else {
+                    console.log('sign in error,' + data.message);
+                }
+            }
+        });
+    }
 });
 
 $('.form').find('input, textarea').on('keyup blur focus', function (e) {

@@ -14,6 +14,6 @@ router.post('/authenticate', auth.authenticate);
 // to access the following API routes you must be logged in
 router.use(auth.verifyToken);
 
-router.get('/users', userApi.getAll);
+router.get('/user', userApi.getCurrentUser);
 
 module.exports = router;

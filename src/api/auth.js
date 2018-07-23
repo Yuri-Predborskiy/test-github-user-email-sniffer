@@ -16,13 +16,12 @@ function authenticate(req, res) {
             } else {
                 const payload = {
                     username: user.username,
-                    password: user.password,
+                    // password: user.password,
                 };
                 let token = jwt.sign(payload, config.JWTSecret);
 
                 res.json({
                     success: true,
-                    message: 'Enjoy your token!',
                     token: token
                 });
             }
