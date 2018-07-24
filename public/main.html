@@ -22,7 +22,7 @@
         <div id="signup">
             <h1>Sign Up</h1>
 
-            <form action="/" id="signup-form" method="post">
+            <form action="/" id="signup-form" method="post" enctype="multipart/form-data">
 
                 <div class="field-wrap">
                     <label for="email">
@@ -43,6 +43,13 @@
                         Repeat Password<span class="req">*</span>
                     </label>
                     <input type="password" name="cpassword" title="cpassword" required autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label for="avatar">
+                        Select avatar<span class="req">*</span>
+                    </label>
+                    <input type="file" name="avatar" title="avatar"/>
                 </div>
 
                 <button type="submit" class="button button-block">Sign up</button>

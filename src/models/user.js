@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 module.exports = mongoose.model('User', new Schema({
     username: String,
     password: String,
-//    thumbnail: String
+    avatar: String,
     mail: {
         host: String,
         port: String,

@@ -38,11 +38,16 @@ $('document').ready(function()
     /* form submit */
     function submitSignupForm()
     {
-        let data = $("#signup-form").serialize();
+        // let data = $("#signup-form").serialize();
+        let data = new FormData($("#signup-form")[0]);
+        // data.append('file-'+i, $('#avatar')[0].files);
         $.ajax({
             type : 'POST',
             url  : 'api/register',
             data : data,
+            contentType: false,
+            processData: false,
+            cache: false,
             success: function(data)
             {
                 console.log('result from ajax', data);

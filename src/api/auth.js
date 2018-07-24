@@ -21,7 +21,8 @@ function authenticate(req, res) {
 
                 res.json({
                     success: true,
-                    token: token
+                    token: token,
+                    avatar: req.body.avatar
                 });
             }
         }
@@ -47,37 +48,40 @@ function verifyToken(req, res, next) {
     }
 }
 
-// todo: rewrite using promises, generators or async-await ? to limit the number of callbacks one in another
-function createUser(req, res) {
-    User.findOne({
-        username: req.body.email
-    }, function(err, user) {
-        if (err) { throw err; }
-        if (user) {
-            res.json({ success: false, message: 'User already exists. Please log in.' });
-        } else if (!user) {
-            nodemailer.createTestAccount((err, account) => {
-                if (err) {
-                    console.error('Failed to create a testing account. ' + err.message);
-                    res.json({ success: false, message: `Error when creating email: ${err.message}`});
-                }
-                else {
-                    let newUser = User({
-                        username: req.body.email,
-                        password: req.body.password,
-                        mail: {
-                            host: account.smtp.host,
-                            port: account.smtp.port,
-                            secure: account.smtp.secure,
-                            auth: {
-                                user: account.user,
-                                pass: account.pass
-                            }
-                        }
-                    });
-                    newUser.save().then(() => authenticate(req, res));
+async function createUser(req, res) {
+    let user = null;
+    try {
+        user = await User.findOne({ username: req.body.email });
+    } catch (err) {
+        console.error(err);
+        res.json({ success: false, message: 'error creating new user' });
+    }
+    if (user && user.length > 0) {
+        res.json({ success: false, message: 'user already exists, please log in' });
+    }
+    nodemailer.createTestAccount(async (err, account) => { // does not support async - relies on callback function
+        if (err) {
+            console.error('Failed to create a testing account. ' + err.message);
+            res.json({ success: false, message: `Error when creating email: ${err.message}`});
+        }
+        else {
+            let newUser = User({
+                username: req.body.email,
+                password: req.body.password,
+                avatar: req.file.filename,
+                mail: {
+                    host: account.smtp.host,
+                    port: account.smtp.port,
+                    secure: account.smtp.secure,
+                    auth: {
+                        user: account.user,
+                        pass: account.pass
+                    },
                 }
             });
+            await newUser.save();
+            req.body.avatar = `${req.protocol}://${req.get('host')}/avatars/${req.file.filename}`;
+            authenticate(req, res);
         }
     });
 }
