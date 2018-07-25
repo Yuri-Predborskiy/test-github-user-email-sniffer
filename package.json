@@ -1,18 +1,19 @@
 {
   "name": "test-github-user-email-sniffer",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "rest api based on express that looks up user email and location and emails them a message from the caller",
+  "engines": {
+    "node": "8.11.3"
+  },
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "file-type": "^8.1.0",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.4",
     "morgan": "^1.9.0",
     "multer": "^1.3.1",
-    "nodemailer": "^4.6.7",
-    "uuid": "^3.3.2"
+    "nodemailer": "^4.6.7"
   },
   "devDependencies": {},
   "scripts": {
