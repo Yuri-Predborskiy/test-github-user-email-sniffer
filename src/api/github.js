@@ -1,6 +1,5 @@
 const https = require('https');
 const nodemailer = require('nodemailer');
-const config = require('../../config/config');
 const User = require('./../models/user');
 
 let mail = {};
@@ -41,8 +40,8 @@ async function sendMailToGitHubUsers(req, res) {
 function getUserData(username) {
     let options = {
         headers: {
-            'User-Agent': config.userAgent,
-            'Authorization': `token ${config.accessToken}`,
+            'User-Agent': process.env.USER_AGENT,
+            'Authorization': `token ${process.env.GITHUB_ACCESS_TOKEN}`,
         },
         host : `api.github.com`,
         path: `/users/${username}`
@@ -75,7 +74,7 @@ function getWeather(user) {
     if (!location) {
         return new Promise((resolve) => resolve(user));
     }
-    let weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=${config.weatherAPIkey}&units=metric`;
+    let weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=${process.env.WEATHER_API_ACCESS_TOKEN}&units=metric`;
     return new Promise(function(resolve) {
         https.get(weatherURL, (resp) => {
             let data = '';

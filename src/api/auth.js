@@ -1,7 +1,6 @@
 const User = require('./../models/user');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const config = require('../../config/config');
 
 function authenticate(req, res) {
     User.findOne({
@@ -17,7 +16,7 @@ function authenticate(req, res) {
                 const payload = {
                     username: user.username,
                 };
-                let token = jwt.sign(payload, config.JWTSecret);
+                let token = jwt.sign(payload, process.env.JWT_SECRET);
 
                 res.json({
                     success: true,
@@ -32,7 +31,7 @@ function authenticate(req, res) {
 function verifyToken(req, res, next) {
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (token) {
-        jwt.verify(token, config.JWTSecret, function(err, decoded) {
+        jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
             if (err) {
                 return res.json({ success: false, message: 'Failed to authenticate token.' });
             } else {
